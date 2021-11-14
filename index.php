@@ -23,7 +23,7 @@
                 <h3 class="text-primary">Formulário de cadastro</h3>
             </div>
             <div class="col text-right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newcad">
                     Novo Cadastro
                 </button>
             </div>
@@ -31,7 +31,7 @@
 
         <!--aqui vai a janela modal-->
         <!-- The Modal -->
-        <div class="modal" id="myModal">
+        <div class="modal" id="newcad">
             <div class="modal-dialog">
                 <div class="modal-content">
 
@@ -45,11 +45,11 @@
                     <div class="modal-body">
                         <form action="back-end/cadastros.php" method="post">
                             <label for="">Nome</label>
-                            <input type="text" name="nome">
+                            <input type="text" name="nome" class="form-control" placeholder="digite seu nome">
                             <br>
 
                             <label for="">Telefone</label>
-                            <input type="text" name="telefone">
+                            <input type="text" name="telefone" class="form-control" placeholder="digite seu telefone">
                             <br>
                                 
                             <hr>
@@ -63,6 +63,8 @@
                 </div>
             </div>
         </div>
+            
+        <br>
             
         <br>
 
@@ -103,15 +105,11 @@
                     <td><?php echo $retorno_cadastro['dataCadastro'];?></td>
                         
                     <td>
-                        <form action="back-end/edicoes.php" method="post">
-                            <input type="hidden" name="idCadastro" value="<?php echo $retorno_cadastro['id'];?>">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#n<?php echo $retorno_cadastro['id'];?>">
+                            Editar
+                        </button>
 
-                            <input type="text" name="nome" value="<?php echo $retorno_cadastro['nome']; ?>">
-                            <input type="text" name="telefone" value="<?php echo $retorno_cadastro['telefone']; ?>">
 
-                            <input type="submit" value="EDITAR" class="btn btn-warning">
-
-                        </form>
                     </td>
                         
                     <td>
@@ -122,10 +120,72 @@
 
                         </form>
                     </td>
-                </tr> 
+                </tr>
+
+                <!--aqui vai a janela modal de edicao-->
+                <!-- The Modal -->
+                <div class="modal" id="n<?php echo $retorno_cadastro['id'];?>">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Editar usuário</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <form action="back-end/edicoes.php" method="post">
+                                    <input type="hidden" name="idCadastro" value="<?php echo $retorno_cadastro['id'];?>">
+
+                                    <input type="text" name="nome" value="<?php echo $retorno_cadastro['nome']; ?>" class="form-control">
+                                    <input type="text" name="telefone" value="<?php echo $retorno_cadastro['telefone']; ?>" class="form-control">
+
+                                    <input type="submit" value="EDITAR" class="btn btn-warning">
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
             <?php } ?>
         </tbody>
     </table>
+
+    <hr>
+
+
+    <?php
+
+    include "back-end/conexao.php";
+
+    $query_colapse = "SELECT *
+                    FROM cadastro_pessoas ";
+
+    $buscar_colapse = mysqli_query($connex, $query_colapse);
+
+    while($retorno_colapse = mysqli_fetch_array($buscar_colapse)) {
+    ?>
+
+
+
+    <button data-toggle="collapse" data-target="#d<?php echo $retorno_colapse['id']; ?>" class="btn btn-success btn-block"><?php echo $retorno_colapse['nome']; ?></button>
+
+    <div id="d<?php echo $retorno_colapse['id']; ?>" class="collapse">
+        Lorem ipsum dolor text....<?php echo $retorno_colapse['id']; ?>
+    </div>
+
+    <br>
+
+    <?php
+    }
+    ?>
 
 </body>
 
